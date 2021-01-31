@@ -1,0 +1,40 @@
+version: "3.7"
+services:
+    user-service:
+        build:
+            context: .
+            dockerfile: user-service/Dockerfile
+        ports:
+            - 6000:8090
+        container_name: work-user
+        restart: always
+        links:
+            - mongo
+        depends_on:
+            - mongo
+        environment:
+            - MONGODB_URI=mongodb://mongo:27017
+            - DB_NAME=local
+    notification-service:
+        build:
+            context: .
+            dockerfile: notification-service/Dockerfile
+        ports:
+            - 9000:8095
+        container_name: work-notification
+        restart: always
+    eureka:
+        build:
+            context: .
+            dockerfile: eureka/Dockerfile
+        ports:
+            - 8761:8761
+        container_name: work-eureka
+        restart: always
+
+    mongo:
+        image: 'mongo:latest'
+        ports:
+            - 27017:27017
+        container_name: work-mongo
+        restart: always
