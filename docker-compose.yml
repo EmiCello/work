@@ -5,7 +5,7 @@ services:
             context: .
             dockerfile: user-service/Dockerfile
         ports:
-            - 6000:8090
+            - 6000:8061
         container_name: work-user
         restart: always
         links:
@@ -20,7 +20,7 @@ services:
             context: .
             dockerfile: notification-service/Dockerfile
         ports:
-            - 9000:8095
+            - 9000:8060
         container_name: work-notification
         restart: always
     eureka:

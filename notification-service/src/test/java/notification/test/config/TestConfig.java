@@ -1,19 +1,27 @@
 package notification.test.config;
 
-import notification.config.EmailConfiguration;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+
+import java.util.Properties;
 
 @TestConfiguration
 public class TestConfig {
 
     @Bean
-    public EmailConfiguration getConfiguration() {
-        EmailConfiguration emailConfiguration = new EmailConfiguration();
-        emailConfiguration.setHost("host");
-        emailConfiguration.setUser("user");
-        emailConfiguration.setPort(2245);
-        emailConfiguration.setPassword("12345678");
-        return new EmailConfiguration();
+    public JavaMailSenderImpl emailSender(){
+        JavaMailSenderImpl emailSender = new JavaMailSenderImpl();
+        emailSender.setHost("smtp.mailtrap.io");
+        emailSender.setPort(2525);
+        emailSender.setUsername("d85dffc94125ad");
+        emailSender.setPassword("e34bd2b392a5ae");
+        Properties mailProps = new Properties();
+        mailProps.setProperty("mail.transport.protocol","smtp");
+        mailProps.setProperty("mail.smtp.auth","true");
+        mailProps.setProperty("mail.smtp.starttls.enable","true");
+        mailProps.setProperty("mail.debug","false");
+        emailSender.setJavaMailProperties(mailProps);
+        return emailSender;
     }
 }
