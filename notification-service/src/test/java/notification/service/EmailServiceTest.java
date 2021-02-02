@@ -3,7 +3,6 @@ package notification.service;
 
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetupTest;
-import notification.config.EmailConfiguration;
 import notification.domains.EmailInfo;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,13 +13,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.test.context.ContextConfiguration;
 
 import javax.mail.Message;
-import javax.mail.SendFailedException;
+import javax.mail.MessagingException;
 
 @ExtendWith(MockitoExtension.class)
-@ContextConfiguration(classes = EmailConfiguration.class)
 public class EmailServiceTest {
 
     GreenMail greenMail;
@@ -34,16 +31,16 @@ public class EmailServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        greenMail = new GreenMail(ServerSetupTest.SMTP);
+        greenMail = new GreenMail(ServerSetupTest.ALL);
         greenMail.start();
     }
 
     @Test
-    public void testSendEmail() throws SendFailedException {
+    public void testSendEmail() throws MessagingException {
         emailService.sendEmail(EmailInfo.builder()
-            .name("Emilia")
+            .name("Johny")
             .email("test@test.com")
-            .feedback("textEmailTest")
+            .feedback("This is text from EmailServiceTest :)")
             .build());
 
         Message[] messages = greenMail.getReceivedMessages();
@@ -51,5 +48,4 @@ public class EmailServiceTest {
         Assert.assertEquals(1, messages.length);
     }
 }
-
 
