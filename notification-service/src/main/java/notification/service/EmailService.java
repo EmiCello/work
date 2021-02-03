@@ -1,6 +1,5 @@
 package notification.service;
 
-import notification.config.EmailConfiguration;
 import notification.domains.EmailInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -9,17 +8,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EmailService {
-    @Autowired
-    private EmailConfiguration emailConfiguration;
+
     @Autowired
     private JavaMailSenderImpl mailSender;
 
     public void sendEmail(EmailInfo emailInfo) {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost(this.emailConfiguration.getHost());
-        mailSender.setPort(this.emailConfiguration.getPort());
-        mailSender.setUsername(this.emailConfiguration.getUser());
-        mailSender.setPassword(this.emailConfiguration.getPassword());
+        mailSender.setHost("smtp.mailtrap.io");
+        mailSender.setPort(2525);
+        mailSender.setUsername("8472a372031c68");
+        mailSender.setPassword("944ab9d3d61f0d");
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom(emailInfo.getEmail());

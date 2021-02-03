@@ -1,11 +1,38 @@
 version: "3.7"
 services:
+    eureka:
+        build:
+            context: .
+            dockerfile: eureka/Dockerfile
+        ports:
+            - 8761:8761
+        container_name: work-eureka
+        restart: always
+
+    zuul:
+        build:
+            context: .
+            dockerfile: zuul/Dockerfile
+        ports:
+            - 3000:8062
+        container_name: work-zuul
+        restart: always
+
+    config-server:
+        build:
+            context: .
+            dockerfile: config-server/Dockerfile
+        ports:
+           - 5000:8012
+        container_name: work-config-server
+        restart: always
+
     user-service:
         build:
             context: .
             dockerfile: user-service/Dockerfile
         ports:
-            - 6000:8090
+            - 6000:8061
         container_name: work-user
         restart: always
         links:
@@ -20,16 +47,8 @@ services:
             context: .
             dockerfile: notification-service/Dockerfile
         ports:
-            - 9000:8095
+            - 9000:8060
         container_name: work-notification
-        restart: always
-    eureka:
-        build:
-            context: .
-            dockerfile: eureka/Dockerfile
-        ports:
-            - 8761:8761
-        container_name: work-eureka
         restart: always
 
     mongo:
